@@ -1,40 +1,46 @@
-import React from 'react';
-// import Table from './Table';
-// import Form from './Form';
+import React from "react";
+import Table from "./Table";
+import Form from "./Form";
 
 class LinkContainer extends React.Component {
-    constructor(props){
-        super(props)
-        /* TODO - Create state object for storing favLinks */
-    }
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.removeCharacter = this.removeCharacter.bind(this);
+    this.state = {
+      favLinks: [{ name: "GitHub", URL: "www.github.com/jrosario22" }]
+    };
+  }
 
-    removeCharacter = index => {
-        /*
-            TODO - Create logic for setting the state to filter array and remove favLink at index
-        */
-    }
+  //* Removes links from table
+  removeCharacter = index => {
+    const favLinks = [...this.state.favLinks];
+    favLinks.splice(index, 1);
+    this.setState({ favLinks });
+  };
 
-    handleSubmit = favLink => {
-        /*
-            TODO - Create logic to setState and add new favLink to favLinks array in state
-        */
-    }
+  //* Adds form data to table
+  handleSubmit = favLink => {
+    this.setState(state => ({
+      favLinks: state.favLinks.concat([favLink])
+    }));
+  };
 
-    render() {
-
-        return (
-            <div className="container">
-                <h1>My Favorite Links</h1>
-                <p>Add a new url with a name and link to the table.</p>
-                {/*TODO - Add Table Component */}
-                
-                <br/>
-
-                <h3>Add New</h3>
-                {/*TODO - Add Form Component */}
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div className="container">
+        <h1>My Favorite Links</h1>
+        <p>Add a new url with a name and link to the table.</p>
+        <Table
+          linkData={this.state.favLinks}
+          removeLink={this.removeCharacter}
+        />
+        <br />
+        <h3>Add New</h3>
+        <Form handleSubmit={this.handleSubmit} />
+      </div>
+    );
+  }
 }
 
 export default LinkContainer;

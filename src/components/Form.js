@@ -1,40 +1,56 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 
 class Form extends Component {
-    constructor(props) {
-        super(props);
-        
-        /*
-            TODO - set initial state for link name and URL 
+  constructor(props) {
+    super(props);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.handleChangeName = this.handleChangeName.bind(this);
+    this.handleChangeURL = this.handleChangeURL.bind(this);
+    this.state = { name: "", URL: "" };
+  }
 
-        */
-    }
+  handleChangeName = event => {
+    this.setState({
+      name: event.target.value
+    });
+  };
 
-    handleChange = event => {
-        /*
-            TODO - Logic for changing state based on form changes
-        */
-    }
+  handleChangeURL = event => {
+    this.setState({
+      URL: event.target.value
+    });
+  };
 
-    onFormSubmit = (event) => {
-        // to prevent page reload on form submit
-        event.preventDefault();
-        
-        /*
-            TODO - Logic for calling props to handle submission and setting state changes
-        */
+  onFormSubmit = event => {
+    event.preventDefault();
+    this.props.handleSubmit(this.state);
 
-    }
+    // * This will reset the form on submission
+    this.setState({
+      name: "",
+      URL: ""
+    });
+  };
 
-    render() {
-
-        return(
-            <form>
-                {/* TODO - Logic for returning a form element with labels and inputs for link name and URL */}
-            </form>
-        )
-    
-    }
+  render() {
+    return (
+      <form onSubmit={this.onFormSubmit}>
+        <label>Name</label>
+        <input
+          type="text"
+          value={this.state.name}
+          onChange={this.handleChangeName}
+        />
+        <label>URL</label>
+        <input
+          type="text"
+          value={this.state.URL}
+          onChange={this.handleChangeURL}
+        />
+        <button type="submit">Submit</button>
+      </form>
+    );
+  }
 }
 
 export default Form;
